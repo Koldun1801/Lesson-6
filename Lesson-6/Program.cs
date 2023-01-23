@@ -66,6 +66,10 @@ namespace Lesson6
         {
             string addedWorker = NextStringIndex(path).ToString() + '#' + worker;
 
+            {
+                if (File.Exists(path) == false) File.Create(path);
+            }
+
             using (StreamWriter sw = new StreamWriter(path, true, Encoding.Unicode))
             {
                 sw.WriteLine(addedWorker);
