@@ -1,4 +1,6 @@
 ﻿
+using System.Text;
+
 namespace Lesson6
 {
     class Programm
@@ -43,7 +45,16 @@ namespace Lesson6
         /// <param name="path">путь к файлу с таблицей</param>
         static void Exercise_2(string path)
         {
-            AddWorker(FillingForm(),path);
+            char key = 'д';
+
+            do
+            {
+                AddWorker(FillingForm(), path);
+
+                Console.WriteLine("Добавить ещё сотрудника? д/н");
+                key = Console.ReadKey(true).KeyChar;
+            }
+            while (char.ToLower(key) == 'д');
         }
 
         /// <summary>
@@ -53,15 +64,11 @@ namespace Lesson6
         /// <param name="path">путь к файлу с таблицей</param>
         static void AddWorker(string worker, string path)
         {
-            if (File.Exists(path) == true)
+            string addedWorker = NextStringIndex(path).ToString() + '#' + worker;
+
+            using (StreamWriter sw = new StreamWriter(path, true, Encoding.Unicode))
             {
-                string addedWorker = "\n"+NextStringIndex(path) + '#' + worker;
-                File.AppendAllText(path, addedWorker);
-            }
-            else
-            {
-                string addedWorker = "1#" + worker;
-                File.WriteAllText(path, addedWorker);
+                sw.WriteLine(addedWorker);
             }
         }
 
@@ -72,11 +79,13 @@ namespace Lesson6
         /// <returns>номер следующей строки</returns>
         static int NextStringIndex(string path)
         {
-            if (File.Exists(path)==false) return 1;
-
-            string[] lines = File.ReadAllLines(path);
-            int result = 1 + lines.Length;
-            return result;
+            if (File.Exists(path) == false) return 1;
+            else
+            {
+                string[] lines = File.ReadAllLines(path);
+                int result = 1 + lines.Length;
+                return result;
+            }
         }
 
         /// <summary>
