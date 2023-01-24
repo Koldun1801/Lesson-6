@@ -28,6 +28,7 @@ namespace Lesson6
                     break;
                 }
             }
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -64,15 +65,15 @@ namespace Lesson6
         /// <param name="path">путь к файлу с таблицей</param>
         static void AddWorker(string worker, string path)
         {
-            string addedWorker = NextStringIndex(path).ToString() + '#' + worker;
-
+            if (File.Exists(path) == true)
             {
-                if (File.Exists(path) == false) File.Create(path);
+                string addedWorker = "\n" + NextStringIndex(path) + '#' + worker;
+                File.AppendAllText(path, addedWorker, Encoding.Unicode);
             }
-
-            using (StreamWriter sw = new StreamWriter(path, true, Encoding.Unicode))
+            else
             {
-                sw.WriteLine(addedWorker);
+                string addedWorker = "1#" + worker;
+                File.WriteAllText(path, addedWorker, Encoding.Unicode);
             }
         }
 
