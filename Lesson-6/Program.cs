@@ -43,7 +43,8 @@ namespace Lesson6
             }
             else
             {
-                Write("файла не существует");
+                File.Create(path);
+                Write("Создан пустой файл");
             }
         }
 
@@ -74,8 +75,16 @@ namespace Lesson6
         {
             if (File.Exists(path) == true)
             {
-                string addedWorker = "\n" + NextStringIndex(path) + '#' + worker;
-                File.AppendAllText(path, addedWorker, Encoding.Unicode);
+                int nextStringIndex = NextStringIndex(path);
+                string addedWorker = nextStringIndex.ToString() + '#' + worker;
+                if (nextStringIndex == 1)
+                {
+                    File.WriteAllText(path, addedWorker, Encoding.Unicode);
+                }
+                else
+                {
+                    File.AppendAllText(path, "\n"+addedWorker, Encoding.Unicode);
+                }
             }
             else
             {
@@ -96,6 +105,8 @@ namespace Lesson6
             {
                 string[] lines = File.ReadAllLines(path);
                 int result = 1 + lines.Length;
+                if (lines==null)
+                    result = 1;
                 return result;
             }
         }
@@ -147,6 +158,9 @@ namespace Lesson6
 
             string[] words = inputString.Split('#');
             string result;
+
+            if (words[0] == "") return "Файл пуст";
+
 
             result = NormalizeWord(words[0], valueNumber);
             result += NormalizeWord(words[1], valueDataAdd);
