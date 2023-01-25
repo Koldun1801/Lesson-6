@@ -37,7 +37,14 @@ namespace Lesson6
         /// <param name="path">путь к файлу с таблицей</param>
         static void Exercise_1(string path)
         {
-            Write(WorkersList(path));
+            if (File.Exists(path) == true)
+            {
+                Write(WorkersList(path));
+            }
+            else
+            {
+                Write("файла не существует");
+            }
         }
 
         /// <summary>
@@ -116,6 +123,10 @@ namespace Lesson6
                 string wordOut = StringOutputFormat(word);
                 Console.WriteLine(wordOut);
             }
+        }
+        static void Write(string word)
+        {
+            Console.WriteLine("\n"+word);
         }
 
         /// <summary>
